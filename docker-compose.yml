@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: "mysql:5.7"
+    container_name: "acmebookstore_mysql"
+    hostname: "dsa-mysql"
+    volumes:
+     - "mysql-data:/var/lib/mysql"
+    command: "--default-authentication-plugin=mysql_native_password"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      PS1: "\\u@\\h:\\w\\$$ "
+
+  app:
+    build:
+      context: "./docker/dev/php"
+    container_name: "acmebookstore_app"
+    hostname: "dsa-php"
+    volumes:
+      - ".:/app:consistent"
+    depends_on:
+      - "mysql"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+
+  nginx:
+    build:
+      context: "./docker/dev/nginx"
+    container_name: "acmebookstore_nginx"
+    hostname: "dsa-nginx"
+    ports:
+      - "${APP_HOST}:80"
+      - "3043:443"
+    volumes:
+      - ".:/app:consistent"
+    depends_on:
+      - "mysql"
+      - "app"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+
+  adminer:
+    image: "adminer"
+    container_name: "acmebookstore_adminer"
+    restart: "always"
+    ports:
+      - "${ADMINER_HOST}:8080"
+    links:
+      - "mysql"
+    environment:
+      PMA_HOST: "mysql"
+      PMA_PORT: "3306"
+      PMA_USER: "${DB_USERNAME}"
+      PMA_PASSWORD: "${DB_PASSWORD}"
+
+volumes:
+    mysql-data:
+        driver: local
