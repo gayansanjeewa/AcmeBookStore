@@ -21,8 +21,8 @@ up: ## Builds, (re)creates, starts, and attaches to containers for a service
 	@docker-compose up -d
 	@make -s ps
 
-composer: ## Allow to use the composer command. Usage: make composer c='require symfony/assets'
-	@docker-compose exec -T $(PHP_SERVICE) composer install
+composer: ## Allow to use the composer commands. Usage: make composer i='require symfony/assets'
+	@docker-compose exec -T $(PHP_SERVICE) composer $(i)
 
 database:
 	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:schema:update
