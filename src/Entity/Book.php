@@ -28,15 +28,15 @@ class Book
     private $author;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $price;
 
     /**
      * @return int|null
@@ -85,25 +85,6 @@ class Book
     }
 
     /**
-     * @return Category|null
-     */
-    public function getCategoryId(): ?Category
-    {
-        return $this->category_id;
-    }
-
-    /**
-     * @param Category|null $category_id
-     * @return Book
-     */
-    public function setCategoryId(?Category $category_id): self
-    {
-        $this->category_id = $category_id;
-
-        return $this;
-    }
-
-    /**
      * @return int|null
      */
     public function getPrice(): ?int
@@ -118,6 +99,18 @@ class Book
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
