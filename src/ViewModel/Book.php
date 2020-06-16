@@ -4,11 +4,10 @@ namespace App\ViewModel;
 
 final class Book
 {
-
     /**
-     * @var int
+     * @var string
      */
-    public $id;
+    public $uuid;
 
     /**
      * @var string
@@ -21,7 +20,7 @@ final class Book
     public $author;
 
     /**
-     * @var double
+     * @var float
      */
     public $price;
 
@@ -30,16 +29,17 @@ final class Book
      */
     public $category;
 
+
     /**
-     * @param int $id
+     * @param string $uuid
      * @param string $name
      * @param string $author
      * @param float $price
      * @param Category $category
      */
-    public function __construct(int $id, string $name, string $author, float $price, Category $category)
+    public function __construct(string $uuid, string $name, string $author, float $price, Category $category)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->name = $name;
         $this->author = $author;
         $this->price = $price;

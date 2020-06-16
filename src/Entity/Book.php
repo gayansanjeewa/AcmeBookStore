@@ -39,6 +39,11 @@ class Book
     private $category;
 
     /**
+     * @ORM\Column(type="uuid")
+     */
+    private $uuid;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -111,6 +116,18 @@ class Book
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid($uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

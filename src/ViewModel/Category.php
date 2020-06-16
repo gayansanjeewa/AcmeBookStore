@@ -5,9 +5,9 @@ namespace App\ViewModel;
 final class Category
 {
     /**
-     * @var int
+     * @var string
      */
-    public $id;
+    public $uuid;
 
     /**
      * @var string
@@ -15,12 +15,12 @@ final class Category
     public $name;
 
     /**
-     * @param int $id
+     * @param string $uuid
      * @param string $name
      */
-    public function __construct(int $id, string $name)
+    public function __construct(string $uuid, string $name)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->name = $name;
     }
 }

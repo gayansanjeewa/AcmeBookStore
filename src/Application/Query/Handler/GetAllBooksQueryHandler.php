@@ -37,9 +37,9 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
         $viewBooks = [];
         foreach ($books as $book) {
             $bookCategory = $book->getCategory();
-            $category = new Category($bookCategory->getId(), $bookCategory->getName());
+            $category = new Category($bookCategory->getUuid(), $bookCategory->getName());
 
-            $viewBooks[] = new BookViewModel($book->getId(), $book->getName(), $book->getAuthor(), $book->getPrice(), $category);
+            $viewBooks[] = new BookViewModel($book->getUuid(), $book->getName(), $book->getAuthor(), $book->getPrice(), $category);
         }
 
         return $viewBooks;

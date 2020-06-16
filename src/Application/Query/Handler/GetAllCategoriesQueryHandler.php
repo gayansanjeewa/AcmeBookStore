@@ -35,7 +35,7 @@ final class GetAllCategoriesQueryHandler implements BusHandlerInterface
 
         $viewCategories = [];
         foreach ($categories as $category) {
-            $viewCategories[] = new CategoryViewModel($category->getId(), $category->getName());
+            $viewCategories[] = new CategoryViewModel($category->getUuid(), $category->getName());
         }
 
         return $viewCategories;
