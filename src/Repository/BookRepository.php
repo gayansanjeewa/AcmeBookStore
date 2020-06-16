@@ -23,7 +23,7 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
     /**
      * @{@inheritdoc}
      */
-    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function findByCategoryCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         return $this->createQueryBuilder('book')
             ->innerJoin('book.category', 'category')

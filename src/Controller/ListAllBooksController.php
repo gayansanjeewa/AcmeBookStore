@@ -25,7 +25,7 @@ final class ListAllBooksController extends AbstractController
     }
 
     /**
-     * @Route("/", name="book_list")
+     * @Route("/", name="app_book_list")
      * @param Request $request
      * @return Response
      */
@@ -37,16 +37,19 @@ final class ListAllBooksController extends AbstractController
         /** @var Book $books */
         $books = $this->bus->handle(new GetAllBooksQuery($this->filteringCriteria($request)));
 
+        $cart = [];
+        if ($request->getSession()->has('cart')) {
+            $cart = $request->getSession()->get('cart');
+        }
+
         return $this->render('home/index.html.twig', [
             'categories' => $categories,
             'books'      => $books,
+            'quantity'   => !empty($cart['items']) ? count($cart['items']) : 0,
+            'total'      => $cart['total'] ?? 0.0,
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     private function filteringCriteria(Request $request): array
     {
         return [

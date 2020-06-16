@@ -19,5 +19,17 @@ interface BookRepositoryInterface
      *
      * @return array|Book[]
      */
-    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
+    public function findByCategoryCriteria(
+        array $criteria,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null
+    ): array;
+
+    /**
+     * @param array[]
+     *
+     * @return Book|null
+     */
+    public function findOneBy(array $criteria);
 }
