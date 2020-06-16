@@ -30,3 +30,11 @@ test:
 
 down:
 	@docker-compose down
+
+fix-cs: ## Runs the code style fixer
+
+	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) ./vendor/bin/php-cs-fixer fix -v --config=.php_cs.dist --show-progress=dots --allow-risky=yes
+
+check-cs: ## Dry-run the code style fixer and provide diff if available
+
+	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) ./vendor/bin/php-cs-fixer fix --dry-run -v --config=.php_cs.dist --show-progress=dots --allow-risky=yes

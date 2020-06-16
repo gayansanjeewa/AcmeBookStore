@@ -7,8 +7,25 @@ $finder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRules([
-        '@Symfony' => true,
-        'array_syntax' => ['syntax' => 'short'],
+        '@Symfony'                                    => true,
+        'array_syntax'                                => ['syntax' => 'short'],
+        'array_indentation'                           => true,
+        'no_multiline_whitespace_around_double_arrow' => true,
+        'binary_operator_spaces'                      => ['operators' => ['=>' => 'align_single_space_minimal']],
+        'phpdoc_align'                                => true,
+        'phpdoc_indent'                               => true,
+        'phpdoc_inline_tag'                           => true,
+        'phpdoc_no_empty_return'                      => true,
+        'phpdoc_no_useless_inheritdoc'                => true,
+        'phpdoc_separation'                           => true,
+        'phpdoc_summary'                              => true,
+        'phpdoc_to_comment'                           => true,
+        'phpdoc_trim'                                 => true,
+        'no_empty_phpdoc'                             => true,
+        'no_whitespace_before_comma_in_array'         => true,
+        'whitespace_after_comma_in_array'             => true,
+        'no_whitespace_in_blank_line'                 => true,
+        'no_unused_imports'                           => true,
     ])
     ->setFinder($finder)
 ;

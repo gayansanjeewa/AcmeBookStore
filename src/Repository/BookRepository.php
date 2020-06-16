@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Application\Contract\BookRepositoryInterface;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BookRepository extends ServiceEntityRepository
+class BookRepository extends ServiceEntityRepository implements BookRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

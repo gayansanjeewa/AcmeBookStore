@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Application\Query\GetAllBooksQuery;
 use App\Application\Query\GetAllCategoriesQuery;
-use App\Entity\Book;
+use App\ViewModel\Book;
+use App\ViewModel\Category;
 use League\Tactician\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,24 +29,15 @@ final class ListAllBooksController extends AbstractController
      */
     public function __invoke()
     {
-        /** @var \App\ViewModel\Category[] $categories */
+        /** @var Category[] $categories */
         $categories = $this->bus->handle(new GetAllCategoriesQuery());
 
-        $repository = $this->getDoctrine()->getRepository(Book::class);
-        $books = $repository->findAll();
-
-        $viewBooks = [];
-        /** @var Book $book */
-        foreach ($books as $book) {
-            $bookCategory = $book->getCategory();
-            $category = new \App\ViewModel\Category($bookCategory->getId(), $bookCategory->getName());
-
-            $viewBooks[] = new \App\ViewModel\Book($book->getId(), $book->getName(), $book->getAuthor(), $book->getPrice(), $category);
-        }
+        /** @var Book $books */
+        $books = $this->bus->handle(new GetAllBooksQuery());
 
         return $this->render('home/index.html.twig', [
             'categories' => $categories,
-            'books' => $viewBooks,
+            'books'      => $books,
         ]);
     }
 }

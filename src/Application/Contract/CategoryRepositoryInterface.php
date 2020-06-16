@@ -2,7 +2,6 @@
 
 namespace App\Application\Contract;
 
-
 use App\ViewModel\Category;
 
 interface CategoryRepositoryInterface
