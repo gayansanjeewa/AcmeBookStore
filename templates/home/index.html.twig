@@ -13,7 +13,7 @@
                 <div class="list-group">
                     {% for category in categories %}
                         <a href="{{ path('app_book_list', { 'category[]' : category.uuid } ) }}"
-                           class="list-group-item">{{ category.name|e }}</a>
+                           class="list-group-item">{{ category.name|capitalize|e }}</a>
                     {% endfor %}
                     <a href="{{ path('app_book_list' ) }}" class="list-group-item">All Categories</a>
                 </div>

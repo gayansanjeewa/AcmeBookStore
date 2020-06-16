@@ -57,6 +57,6 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
         }
 
 
-        return $this->bookRepository->findByCriteria($query->criteria);
+        return $this->bookRepository->findByCategoryCriteria($query->criteria);
     }
 }
