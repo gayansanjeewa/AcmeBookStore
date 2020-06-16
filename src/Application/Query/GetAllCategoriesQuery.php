@@ -2,7 +2,7 @@
 
 namespace App\Application\Query;
 
-final class GetAllCategoriesCommand
+final class GetAllCategoriesQuery
 {
 
 }

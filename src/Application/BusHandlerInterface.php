@@ -2,7 +2,7 @@
 
 namespace App\Application;
 
-interface CommandHandlerInterface
+interface BusHandlerInterface
 {
 
 }
