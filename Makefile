@@ -38,3 +38,15 @@ fix-cs: ## Runs the code style fixer
 check-cs: ## Dry-run the code style fixer and provide diff if available
 
 	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) ./vendor/bin/php-cs-fixer fix --dry-run -v --config=.php_cs.dist --show-progress=dots --allow-risky=yes
+
+sh: ## Gets inside a container, use 'i' variable to select a service. Usage: make sh i=app
+
+	@docker-compose run --rm -u $(USERID):$(GROUPID) sh -l $(i)
+
+app: ## Gets inside app container, use 'i' variable to select a service. Usage: make sh i="php bin/console"
+
+	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) $(i)
+
+logs: ## Shows the logs of a container. Use 'i' variable to filter on a specific container. Usage: make logs i=app
+
+	@docker-compose logs -f $(i)

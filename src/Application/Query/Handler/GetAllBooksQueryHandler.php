@@ -4,6 +4,7 @@ namespace App\Application\Query\Handler;
 
 use App\Application\BusHandlerInterface;
 use App\Application\Contract\BookRepositoryInterface;
+use App\Application\Contract\CategoryRepositoryInterface;
 use App\Application\Query\GetAllBooksQuery;
 use App\Entity\Book;
 use App\ViewModel\Book as BookViewModel;
@@ -31,17 +32,31 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
      */
     public function __invoke(GetAllBooksQuery $query): array
     {
-        /** @var Book[] $books */
-        $books = $this->bookRepository->findAll();
-
         $viewBooks = [];
-        foreach ($books as $book) {
+        foreach ($this->findBooks($query) as $book) {
             $bookCategory = $book->getCategory();
-            $category = new Category($bookCategory->getId(), $bookCategory->getName());
+            $category = new Category($bookCategory->getUuid(), $bookCategory->getName());
 
-            $viewBooks[] = new BookViewModel($book->getId(), $book->getName(), $book->getAuthor(), $book->getPrice(), $category);
+            $viewBooks[] = new BookViewModel($book->getUuid(), $book->getName(), $book->getAuthor(), $book->getPrice(),
+                $category);
         }
 
         return $viewBooks;
+    }
+
+    /**
+     * @param GetAllBooksQuery $query
+     * @return array|Book[]
+     */
+    protected function findBooks(GetAllBooksQuery $query): array
+    {
+        // TODO: Add pagination
+
+        if (empty($query->criteria)) {
+            return $this->bookRepository->findAll();
+        }
+
+
+        return $this->bookRepository->findByCriteria($query->criteria);
     }
 }

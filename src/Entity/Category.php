@@ -29,6 +29,11 @@ class Category
      */
     private $books;
 
+    /**
+     * @ORM\Column(type="uuid")
+     */
+    private $uuid;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -88,6 +93,18 @@ class Category
                 $book->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid($uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }
