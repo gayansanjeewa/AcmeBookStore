@@ -25,7 +25,7 @@ final class ListAllBooksController extends AbstractController
     }
 
     /**
-     * @Route("/", name="book_list")
+     * @Route("/", name="app_book_list")
      * @param Request $request
      * @return Response
      */

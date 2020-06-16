@@ -12,9 +12,10 @@
 
                 <div class="list-group">
                     {% for category in categories %}
-                        <a href="{{ path('book_list', { 'category[]' : category.uuid } ) }}" class="list-group-item">{{ category.name|e }}</a>
+                        <a href="{{ path('app_book_list', { 'category[]' : category.uuid } ) }}"
+                           class="list-group-item">{{ category.name|e }}</a>
                     {% endfor %}
-                    <a href="{{ path('book_list' ) }}" class="list-group-item">All Categories</a>
+                    <a href="{{ path('app_book_list' ) }}" class="list-group-item">All Categories</a>
                 </div>
 
             </div>
@@ -36,7 +37,12 @@
                                     <p class="card-text">{{ book.category.name }}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                    <form name="addToCartForm">
+                                        <input type="submit"
+                                               data-url="{{ path('api_cart_add_book') }}"
+                                               data-uuid="{{ book.uuid }}"
+                                               class="btn btn-primary add-to-cart" value="Add to cart"/>
+                                    </form>
                                 </div>
                             </div>
                         </div>
