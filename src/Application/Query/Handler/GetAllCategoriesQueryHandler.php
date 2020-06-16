@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Application\Query;
+namespace App\Application\Query\Handler;
 
 use App\Application\BusHandlerInterface;
 use App\Application\Contract\CategoryRepositoryInterface;
+use App\Application\Query\GetAllCategoriesQuery;
 use App\Entity\Category;
+use App\ViewModel\Category as CategoryViewModel;
 
 final class GetAllCategoriesQueryHandler implements BusHandlerInterface
 {
@@ -21,6 +23,11 @@ final class GetAllCategoriesQueryHandler implements BusHandlerInterface
         $this->categoryRepository = $categoryRepository;
     }
 
+    /**
+     * @param GetAllCategoriesQuery $query
+     *
+     * @return array|CategoryViewModel[]
+     */
     public function __invoke(GetAllCategoriesQuery $query): array
     {
         /** @var Category[] $categories */
@@ -28,7 +35,7 @@ final class GetAllCategoriesQueryHandler implements BusHandlerInterface
 
         $viewCategories = [];
         foreach ($categories as $category) {
-            $viewCategories[] = new \App\ViewModel\Category($category->getId(), $category->getName());
+            $viewCategories[] = new CategoryViewModel($category->getId(), $category->getName());
         }
 
         return $viewCategories;
