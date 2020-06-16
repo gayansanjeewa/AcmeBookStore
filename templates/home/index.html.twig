@@ -14,6 +14,7 @@
                     {% for category in categories %}
                         <a href="{{ path('book_list', { 'category[]' : category.uuid } ) }}" class="list-group-item">{{ category.name|e }}</a>
                     {% endfor %}
+                    <a href="{{ path('book_list' ) }}" class="list-group-item">All Categories</a>
                 </div>
 
             </div>
@@ -31,10 +32,8 @@
                                     <h4 class="card-title">
                                         <a href="#">{{ book.name }}</a>
                                     </h4>
-                                    <h5>{{ book.category.name }}</h5>
                                     <h5>$ {{ book.price/100 }}</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                                        numquam aspernatur!</p>
+                                    <p class="card-text">{{ book.category.name }}</p>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary">Add to cart</button>

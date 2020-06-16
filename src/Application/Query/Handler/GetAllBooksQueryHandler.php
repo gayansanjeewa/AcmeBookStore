@@ -52,7 +52,7 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
     {
         // TODO: Add pagination
 
-        if (empty($query->criteria)) {
+        if (empty($query->criteria['category'])) {
             return $this->bookRepository->findAll();
         }
 
