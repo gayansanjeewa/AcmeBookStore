@@ -22,10 +22,7 @@ up: ## Builds, (re)creates, starts, and attaches to containers for a service
 	@make -s ps
 
 composer: ## Allow to use the composer commands. Usage: make composer i='require symfony/assets'
-	@docker-compose exec -T $(PHP_SERVICE) composer $(i)
-
-database:
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:schema:update
+	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) composer $(i)
 
 test:
 	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix src --rules=@PSR2 --using-cache=no --dry-run --verbose --diff
