@@ -25,7 +25,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="category_id")
+     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="category")
      */
     private $books;
 
@@ -73,7 +73,7 @@ class Category
     {
         if (!$this->books->contains($book)) {
             $this->books[] = $book;
-            $book->setCategoryId($this);
+            $book->setCategory($this);
         }
 
         return $this;
@@ -84,8 +84,8 @@ class Category
         if ($this->books->contains($book)) {
             $this->books->removeElement($book);
             // set the owning side to null (unless already changed)
-            if ($book->getCategoryId() === $this) {
-                $book->setCategoryId(null);
+            if ($book->getCategory() === $this) {
+                $book->setCategory(null);
             }
         }
 

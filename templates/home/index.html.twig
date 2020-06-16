@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include('_navbar.html.twig') %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-3">
+
+                <div class="list-group">
+                    {% for category in categories %}
+                        <a href="#" class="list-group-item">{{ category.name|e }}</a>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- /.col-lg-3 -->
+
+            <div class="col-lg-9">
+
+                <div class="row">
+
+                    {% for book in books %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">{{ book.name }}</a>
+                                    </h4>
+                                    <h5>{{ book.category.name }}</h5>
+                                    <h5>$ {{ book.price/100 }}</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        Book store is empty.
+                    {% endfor %}
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.col-lg-9 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+{% endblock %}
