@@ -3,39 +3,32 @@
 namespace App\Application\Query;
 
 use App\Application\BusHandlerInterface;
+use App\Application\Contract\CategoryRepositoryInterface;
 use App\Entity\Category;
-use Doctrine\Persistence\ManagerRegistry;
 
 final class GetAllCategoriesQueryHandler implements BusHandlerInterface
 {
     /**
-     * @var ManagerRegistry
+     * @var CategoryRepositoryInterface
      */
-    private $managerRegistry;
+    private $categoryRepository;
 
     /**
-     * @param ManagerRegistry $managerRegistry
+     * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
-        $this->managerRegistry = $managerRegistry;
+        $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * @param GetAllCategoriesQuery $query
-     * @return array
-     */
     public function __invoke(GetAllCategoriesQuery $query): array
     {
-        $repository = $this->managerRegistry->getRepository(Category::class);
-        $categories = $repository->findAll();
+        /** @var Category[] $categories */
+        $categories = $this->categoryRepository->findAll();
 
         $viewCategories = [];
-        /** @var Category $category */
         foreach ($categories as $category) {
-            $viewCategory = new \App\ViewModel\Category($category->getId(), $category->getName());
-
-            $viewCategories[] = $viewCategory;
+            $viewCategories[] = new \App\ViewModel\Category($category->getId(), $category->getName());
         }
 
         return $viewCategories;
