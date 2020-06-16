@@ -20,6 +20,21 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
         parent::__construct($registry, Book::class);
     }
 
+    /**
+     * @{@inheritdoc}
+     */
+    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        return $this->createQueryBuilder('book')
+            ->innerJoin('book.category', 'category')
+            ->andWhere('category.uuid IN (:val)')
+            ->setParameter('val', $criteria['category'])
+            ->orderBy('book.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */
