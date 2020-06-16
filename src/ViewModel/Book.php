@@ -20,7 +20,7 @@ final class Book
     public $author;
 
     /**
-     * @var float
+     * @var int
      */
     public $price;
 
@@ -34,10 +34,10 @@ final class Book
      * @param string $uuid
      * @param string $name
      * @param string $author
-     * @param float $price
+     * @param int $price
      * @param Category $category
      */
-    public function __construct(string $uuid, string $name, string $author, float $price, Category $category)
+    public function __construct(string $uuid, string $name, string $author, int $price, Category $category)
     {
         $this->uuid = $uuid;
         $this->name = $name;
