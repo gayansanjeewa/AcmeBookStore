@@ -29,8 +29,9 @@ $(document).ready(function () {
             type: 'POST',
             data: {couponCode: couponCode},
             success: function (data) {
-                $('#shopping-cart span.cart-total').text(data['total']);
-                $('#shopping-cart span.cart-quantity').text(data['quantity']);
+                console.log(data);
+                $('#js-shopping-cart span.js-cart-total').text(data['total']);
+                $('#js-shopping-cart span.js-cart-quantity').text(data['quantity']);
             }
         });
     });
