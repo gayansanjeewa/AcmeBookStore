@@ -10,12 +10,31 @@
 
             <div class="col-lg-3">
 
-                <div class="list-group">
-                    {% for category in categories %}
-                        <a href="{{ path('app_book_list', { 'category[]' : category.uuid } ) }}"
-                           class="list-group-item">{{ category.name|capitalize|e }}</a>
-                    {% endfor %}
-                    <a href="{{ path('app_book_list' ) }}" class="list-group-item">All Categories</a>
+                <div class="card my-4">
+                    <h5 class="card-header">Categories</h5>
+                    <div class="list-group">
+                        {% for category in categories %}
+                            <a href="{{ path('app_book_list', { 'category[]' : category.uuid } ) }}"
+                               class="list-group-item">{{ category.name|capitalize|e }}</a>
+                        {% endfor %}
+                        <a href="{{ path('app_book_list' ) }}" class="list-group-item">All Categories</a>
+                    </div>
+                </div>
+
+                <div class="card my-4">
+                    <h5 class="card-header">Coupon Code</h5>
+                    <div class="card-body">
+                        <form name="addCouponForm">
+                            <div class="input-group">
+                                <input required type="text" class="form-control js-coupon-code" placeholder="Enter ABC123">
+                                <span class="input-group-btn">
+                                    <input type="submit"
+                                           data-url="{{ path('api_cart_add_coupon') }}"
+                                           class="btn btn-secondary js-add-coupon-code" value="Apply"/>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
             </div>
@@ -34,14 +53,14 @@
                                         <a href="#">{{ book.name }}</a>
                                     </h4>
                                     <h5>$ {{ book.price/100 }}</h5>
-                                    <p class="card-text">{{ book.category.name }}</p>
+                                    <p class="card-text">{{ book.category.name|capitalize|e }}</p>
                                 </div>
                                 <div class="card-footer">
                                     <form name="addToCartForm">
                                         <input type="submit"
                                                data-url="{{ path('api_cart_add_book') }}"
                                                data-uuid="{{ book.uuid }}"
-                                               class="btn btn-primary add-to-cart" value="Add to cart"/>
+                                               class="btn btn-primary js-add-to-cart" value="Add to cart"/>
                                     </form>
                                 </div>
                             </div>

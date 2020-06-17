@@ -10,10 +10,10 @@
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item">
-                    <div id="shopping-cart">
+                    <div id="js-shopping-cart">
                         <a class="nav-link" href="#">
-                            Cart: $ <span class="cart-total">{{ total }}</span>&nbsp;
-                            (<span class="cart-quantity">{{ quantity }}</span> items)</a>
+                            Cart: $ <span class="js-cart-total">{{ total|number_format(2, '.', ',') }}</span>&nbsp;
+                            (<span class="js-cart-quantity">{{ quantity }}</span> items)</a>
                     </div>
                 </li>
 

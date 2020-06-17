@@ -40,32 +40,29 @@ final class AddBookToCartController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    protected function getShoppingCart(Request $request): array
+    private function getShoppingCart(Request $request): array
     {
         /** @var Book $book */
         $book = $this->bus->handle(new GetBookByUuidQuery($request->get('uuid')));
 
         $cart = $this->getCartFromSession($request->getSession());
 
-        $item = [
+        array_push($cart['items'], [
             'bookUuid'  => $book->uuid,
             'category'  => $book->category->name,
             'bookPrice' => $book->price,
-        ];
-
-        array_push($cart['items'], $item);
+        ]);
 
         $cart['total'] = $this->calculateTotal($cart);
 
-        $applyChildrenCategoryDiscount = $this->applyChildrenCategoryDiscount($cart);
-        $applyTotalCategoryDiscount = $this->applyTotalCategoryDiscount($cart);
-
-        if ($applyChildrenCategoryDiscount) {
-            $cart['total'] = $cart['total'] * (1 - .1);
+        if (empty($cart['couponDiscount']) && empty($cart['childrenCategoryDiscount']) && $this->applyChildrenCategoryDiscount($cart)) {
+            $cart['childrenCategoryDiscount'] = $cart['total'] * .1;
+            $cart['total'] -= $cart['childrenCategoryDiscount'];
         }
 
-        if ($applyTotalCategoryDiscount) {
-            $cart['total'] = $cart['total'] * (1 - .05);
+        if (empty($cart['couponDiscount']) && empty($cart['totalCategoryDiscount']) && $this->applyTotalCategoryDiscount($cart)) {
+            $cart['totalCategoryDiscount'] = $cart['total'] * .05;
+            $cart['total'] -= $cart['totalCategoryDiscount'];
         }
 
         $request->getSession()->set('cart', $cart);
@@ -73,7 +70,7 @@ final class AddBookToCartController extends AbstractController
         return $cart;
     }
 
-    protected function getCartFromSession(SessionInterface $session): array
+    private function getCartFromSession(SessionInterface $session): array
     {
         if ($session->has('cart')) {
             return $session->get('cart');
@@ -84,7 +81,7 @@ final class AddBookToCartController extends AbstractController
         return $session->get('cart');
     }
 
-    protected function calculateTotal(array $cart): float
+    private function calculateTotal(array $cart): float
     {
         $total = 0;
         foreach ($cart['items'] as $item) {
@@ -94,7 +91,7 @@ final class AddBookToCartController extends AbstractController
         return $total / 100;
     }
 
-    protected function applyChildrenCategoryDiscount(array $cart): bool
+    private function applyChildrenCategoryDiscount(array $cart): bool
     {
         $discountSatisfiableChildrenCategoryCount = 5;
 
