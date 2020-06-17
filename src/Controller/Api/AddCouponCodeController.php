@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Controller\Util\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,12 @@ final class AddCouponCodeController extends AbstractController
 {
     /**
      * @Route("/api/cart/coupon", name="api_cart_add_coupon", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $cart = $this->applyCouponCode($request, $this->getCartFromSession($request->getSession()),
-            $request->get('couponCode'));
+        $cart = $this->applyDiscount($request);
 
         return new JsonResponse([
             'quantity' => count($cart['items']),
@@ -25,47 +27,31 @@ final class AddCouponCodeController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    private function getCartFromSession(SessionInterface $session): array
+    /**
+     * @param Request $request
+     * @return array
+     */
+    private function applyDiscount(Request $request): array
+    {
+        $cart = $this->getCartFromSession($request->getSession());
+
+        $cart->applyCoupon($request->get('couponCode'));
+
+        $request->getSession()->set('cart', $cart->asArray());
+
+        return $cart->asArray();
+    }
+
+    /**
+     * @param SessionInterface $session
+     * @return Cart
+     */
+    private function getCartFromSession(SessionInterface $session): Cart
     {
         if ($session->has('cart')) {
-            return $session->get('cart');
+            return Cart::create($session->get('cart'));
         }
 
-        $session->set('cart', ['items' => [], 'total' => 0]);
-
-        return $session->get('cart');
-    }
-
-    private function applyCouponCode(Request $request, array $cart, string $couponCode)
-    {
-        // TODO@Gayan: Add validation for $couponCode
-
-        if (empty($couponCode)) {
-            return $this->addNewCartToSession($request, $cart);
-        }
-
-        if (!empty($cart['couponDiscount'])) {
-            return $this->addNewCartToSession($request, $cart);
-        }
-
-        if (!empty($cart['childrenCategoryDiscount'])) {
-            $cart['total'] += $cart['childrenCategoryDiscount'];
-        }
-
-        if (!empty($cart['totalCategoryDiscount'])) {
-            $cart['total'] += $cart['totalCategoryDiscount'];
-        }
-
-        $cart['couponDiscount'] = $cart['total'] * .15;
-        $cart['total'] -= $cart['couponDiscount'];
-
-        return $this->addNewCartToSession($request, $cart);
-    }
-
-    private function addNewCartToSession(Request $request, array $cart): array
-    {
-        $request->getSession()->set('cart', $cart);
-
-        return $cart;
+        return Cart::init();
     }
 }
