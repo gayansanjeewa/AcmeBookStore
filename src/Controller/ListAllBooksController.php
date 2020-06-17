@@ -42,6 +42,7 @@ final class ListAllBooksController extends AbstractController
             $cart = $request->getSession()->get('cart');
         }
 
+//        $request->getSession()->remove('cart');
         return $this->render('home/index.html.twig', [
             'categories' => $categories,
             'books'      => $books,
