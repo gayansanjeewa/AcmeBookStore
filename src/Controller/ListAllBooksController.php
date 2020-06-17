@@ -21,7 +21,6 @@ final class ListAllBooksController extends AbstractController
 
     /**
      * ListAllBooksController constructor.
-     * @param CommandBus $bus
      */
     public function __construct(CommandBus $bus)
     {
@@ -41,12 +40,12 @@ final class ListAllBooksController extends AbstractController
         /** @var Book $books */
         $books = $this->bus->handle(new GetAllBooksQuery($this->filteringCriteria($request)));
 
+//        $request->getSession()->remove('cart'); // TODO@Gayan: remove this code placed for debugging
+
         $cart = [];
         if ($request->getSession()->has('cart')) {
             $cart = $request->getSession()->get('cart');
         }
-
-//        $request->getSession()->remove('cart'); // TODO@Gayan: remove this code placed for debugging
 
         return $this->render('home/index.html.twig', [
             'categories' => $categories,

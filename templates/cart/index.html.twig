@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include('_navbar.html.twig') %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Items on cart</h6>
+                    </div>
+                    <div class="card-body">
+
+                        {% if cart %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Book</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">No. of books</th>
+                                    <th scope="col">Price ($)</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for item in cart.items %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ item.bookUuid }}</td>
+                                        <td>{{ item.category|capitalize }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ (item.bookPrice/100)|number_format(2, '.', ',') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <table class="table">
+                                <tr>
+                                    <td><h3>Total</h3></td>
+                                    <td><h3>$ {{ (cart.total/100)|number_format(2, '.', ',') }}</h3></td>
+                                </tr>
+
+                                {% if cart.childrenCategoryDiscount is defined %}
+                                    <tr>
+                                        <td><h5>Children category book based discount</h5></td>
+                                        <td><h5>$ {{ (cart.childrenCategoryDiscount/100)|number_format(2, '.', ',') }}</h5></td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if cart.itemCountBasedDiscount is defined %}
+                                    <tr>
+                                        <td><h5>Total book count based discount</h5></td>
+                                        <td><h5>$ {{ (cart.itemCountBasedDiscount/100)|number_format(2, '.', ',') }}</h5></td>
+                                    </tr>
+                                {% endif %}
+
+                                {% if cart.couponDiscount is defined %}
+                                    <tr>
+                                        <td><h5>Coupon code based discount</h5></td>
+                                        <td><h5>$ {{ cart.couponDiscount/100 }}</h5></td>
+                                    </tr>
+                                {% endif %}
+
+
+                            </table>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.col-lg-12 -->
+
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+{% endblock %}
