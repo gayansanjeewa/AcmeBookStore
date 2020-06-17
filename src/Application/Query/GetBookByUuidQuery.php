@@ -9,9 +9,6 @@ final class GetBookByUuidQuery
      */
     public $uuid;
 
-    /**
-     * @param string $uuid
-     */
     public function __construct(string $uuid)
     {
         $this->uuid = $uuid;

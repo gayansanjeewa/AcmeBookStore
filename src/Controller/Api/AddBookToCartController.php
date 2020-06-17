@@ -27,8 +27,6 @@ final class AddBookToCartController extends AbstractController
 
     /**
      * @Route("/api/cart/book", name="api_cart_add_book", methods={"POST"})
-     * @param Request $request
-     * @return JsonResponse
      */
     public function __invoke(Request $request): JsonResponse
     {
@@ -40,10 +38,6 @@ final class AddBookToCartController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     private function applyDiscount(Request $request): array
     {
         /** @var Book $book */
@@ -62,10 +56,6 @@ final class AddBookToCartController extends AbstractController
         return $cart->asArray();
     }
 
-    /**
-     * @param SessionInterface $session
-     * @return Cart
-     */
     private function getCartFromSession(SessionInterface $session): Cart
     {
         if ($session->has('cart')) {

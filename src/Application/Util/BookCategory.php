@@ -16,7 +16,6 @@ final class BookCategory
 
     /**
      * BookCategory constructor.
-     * @param string $category
      */
     private function __construct(string $category)
     {
@@ -40,7 +39,6 @@ final class BookCategory
     }
 
     /**
-     * @param string $category
      * @return BookCategory
      */
     public static function fromString(string $category): self
@@ -50,26 +48,16 @@ final class BookCategory
         return new self($category);
     }
 
-    /**
-     * @param BookCategory $bookCategory
-     * @return bool
-     */
     public function equals(BookCategory $bookCategory): bool
     {
         return $this->asString() === $bookCategory->asString();
     }
 
-    /**
-     * @return string
-     */
     public function asString(): string
     {
         return $this->category;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->asString();

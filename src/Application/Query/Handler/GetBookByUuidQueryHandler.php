@@ -15,18 +15,11 @@ final class GetBookByUuidQueryHandler implements BusHandlerInterface
      */
     private $bookRepository;
 
-    /**
-     * @param BookRepositoryInterface $bookRepository
-     */
     public function __construct(BookRepositoryInterface $bookRepository)
     {
         $this->bookRepository = $bookRepository;
     }
 
-    /**
-     * @param GetBookByUuidQuery $query
-     * @return Book
-     */
     public function __invoke(GetBookByUuidQuery $query): Book
     {
         $book = $this->bookRepository->findOneBy(['uuid' => $query->uuid]);

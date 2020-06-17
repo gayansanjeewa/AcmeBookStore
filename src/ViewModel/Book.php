@@ -29,14 +29,6 @@ final class Book
      */
     public $category;
 
-
-    /**
-     * @param string $uuid
-     * @param string $name
-     * @param string $author
-     * @param int $price
-     * @param Category $category
-     */
     public function __construct(string $uuid, string $name, string $author, int $price, Category $category)
     {
         $this->uuid = $uuid;

@@ -14,10 +14,6 @@ final class Category
      */
     public $name;
 
-    /**
-     * @param string $uuid
-     * @param string $name
-     */
     public function __construct(string $uuid, string $name)
     {
         $this->uuid = $uuid;

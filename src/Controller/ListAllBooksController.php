@@ -29,8 +29,6 @@ final class ListAllBooksController extends AbstractController
 
     /**
      * @Route("/", name="app_book_list")
-     * @param Request $request
-     * @return Response
      */
     public function __invoke(Request $request): Response
     {
@@ -55,10 +53,6 @@ final class ListAllBooksController extends AbstractController
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     private function filteringCriteria(Request $request): array
     {
         return [

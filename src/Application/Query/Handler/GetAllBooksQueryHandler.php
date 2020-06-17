@@ -4,7 +4,6 @@ namespace App\Application\Query\Handler;
 
 use App\Application\BusHandlerInterface;
 use App\Application\Contract\BookRepositoryInterface;
-use App\Application\Contract\CategoryRepositoryInterface;
 use App\Application\Query\GetAllBooksQuery;
 use App\Entity\Book;
 use App\ViewModel\Book as BookViewModel;
@@ -17,17 +16,12 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
      */
     private $bookRepository;
 
-    /**
-     * @param BookRepositoryInterface $bookRepository
-     */
     public function __construct(BookRepositoryInterface $bookRepository)
     {
         $this->bookRepository = $bookRepository;
     }
 
     /**
-     * @param GetAllBooksQuery $query
-     *
      * @return array|BookViewModel[]
      */
     public function __invoke(GetAllBooksQuery $query): array
@@ -45,7 +39,6 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
     }
 
     /**
-     * @param GetAllBooksQuery $query
      * @return array|Book[]
      */
     protected function findBooks(GetAllBooksQuery $query): array
@@ -55,7 +48,6 @@ final class GetAllBooksQueryHandler implements BusHandlerInterface
         if (empty($query->criteria['category'])) {
             return $this->bookRepository->findAll();
         }
-
 
         return $this->bookRepository->findByCategoryCriteria($query->criteria);
     }

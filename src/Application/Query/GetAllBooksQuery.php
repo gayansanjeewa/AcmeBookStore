@@ -9,9 +9,6 @@ final class GetAllBooksQuery
      */
     public $criteria;
 
-    /**
-     * @param array $criteria
-     */
     public function __construct(array $criteria)
     {
         $this->criteria = $criteria;
