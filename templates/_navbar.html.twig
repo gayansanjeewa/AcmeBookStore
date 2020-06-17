@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">Acme Book Store</a>
+        <a class="navbar-brand" href="{{ path('app_book_list') }}">Acme Book Store</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,8 +11,9 @@
 
                 <li class="nav-item">
                     <div id="js-shopping-cart">
-                        <a class="nav-link" href="#">
-                            Cart: $ <span class="js-cart-total">{{ total|number_format(2, '.', ',') }}</span>&nbsp;
+                        <a class="nav-link" href="{{ path('app_display_cart') }}" data-toggle="tooltip"
+                           data-placement="top" title="Click to proceed to checkout">
+                            Cart: $ <span class="js-cart-total">{{ (total/100)|number_format(2, '.', ',') }}</span>&nbsp;
                             (<span class="js-cart-quantity">{{ quantity }}</span> items)</a>
                     </div>
                 </li>
