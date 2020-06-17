@@ -24,9 +24,8 @@ up: ## Builds, (re)creates, starts, and attaches to containers for a service
 composer: ## Allow to use the composer commands. Usage: make composer i='require symfony/assets'
 	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) composer $(i)
 
-test:
-	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix src --rules=@PSR2 --using-cache=no --dry-run --verbose --diff
-	@docker-compose exec -T $(PHP_SERVICE) bin/console security:check
+test: ## Run test
+	@docker-compose run --rm -u $(USERID):$(GROUPID) $(PHP_SERVICE) php ./bin/phpunit $(i)
 
 down:
 	@docker-compose down
