@@ -12,8 +12,6 @@ interface BookRepositoryInterface
     public function findAll();
 
     /**
-     * @param array $criteria
-     * @param array|null $orderBy
      * @param int|null $limit
      * @param int|null $offset
      *

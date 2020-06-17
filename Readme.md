@@ -8,7 +8,20 @@ git clone git@github.com:gayansanjeewa/AcmeBookStore.git TestAcmeBookStore
 cd TestAcmeBookStore
 
 # You can find a convenient set of commands by executing "make"
-make
+☁  AcmeBookStore [master] make
+Available Commands:
+help                           Shows all available commands with their description
+ps                             List containers
+build                          Builds the docker images and executes the vendors
+up                             Builds, (re)creates, starts, and attaches to containers for a service
+composer                       Allow to use the composer commands. Usage: make composer i='require symfony/assets'
+test                           Run test
+fix-cs                         Runs the code style fixer
+check-cs                       Dry-run the code style fixer and provide diff if available
+sh                             Gets inside a container, use 'i' variable to select a service. Usage: make sh i=app
+app                            Gets inside app container, use 'i' variable to select a service. Usage: make sh i="php bin/console"
+logs                           Shows the logs of a container. Use 'i' variable to filter on a specific container. Usage: make logs i=app
+☁  AcmeBookStore [master]
 
 # To download the docker images execute "make build"
 make build
@@ -41,7 +54,29 @@ You'd find a sample databasse dump for the purpose to this project in `migration
 
 Navigate to http://localhost:8000 and you'd see the website up and running
 
-#### Note:
-Please note from the assignment 
-- couple of tests are still missing
-- the checkout page not yet complete
+#### Some useful console outputs:
+```bash
+☁  AcmeBookStore [master] ⚡  make test
+Starting acmebookstore_mysql ... done
+PHPUnit 7.5.20 by Sebastian Bergmann and contributors.
+
+Testing Project Test Suite
+.........                                                           9 / 9 (100%)
+
+Time: 303 ms, Memory: 12.00 MB
+
+OK (9 tests, 41 assertions)
+☁  AcmeBookStore [master] ⚡ 
+```
+
+```bash
+☁  AcmeBookStore [master] ⚡  make check-cs
+Starting acmebookstore_mysql ... done
+Loaded config default from ".php_cs.dist".
+Using cache file ".php_cs.cache".
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS                                                                                                                                          33 / 33 (100%)
+Legend: ?-unknown, I-invalid file syntax (file ignored), S-skipped (cached or empty file), .-no changes, F-fixed, E-error
+
+Checked all files in 0.002 seconds, 6.000 MB memory used
+☁  AcmeBookStore [master] ⚡
+```

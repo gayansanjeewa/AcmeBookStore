@@ -43,24 +43,17 @@ class Book
      */
     private $uuid;
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
      * @return Book
      */
     public function setName(string $name): self
@@ -70,16 +63,12 @@ class Book
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getAuthor(): ?string
     {
         return $this->author;
     }
 
     /**
-     * @param string|null $author
      * @return Book
      */
     public function setAuthor(?string $author): self
@@ -89,16 +78,12 @@ class Book
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getPrice(): ?int
     {
         return $this->price;
     }
 
     /**
-     * @param int $price
      * @return Book
      */
     public function setPrice(int $price): self

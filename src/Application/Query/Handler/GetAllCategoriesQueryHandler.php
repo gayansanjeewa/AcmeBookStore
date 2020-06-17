@@ -15,17 +15,12 @@ final class GetAllCategoriesQueryHandler implements BusHandlerInterface
      */
     private $categoryRepository;
 
-    /**
-     * @param CategoryRepositoryInterface $categoryRepository
-     */
     public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
     /**
-     * @param GetAllCategoriesQuery $query
-     *
      * @return array|CategoryViewModel[]
      */
     public function __invoke(GetAllCategoriesQuery $query): array
