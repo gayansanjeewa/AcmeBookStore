@@ -30,7 +30,6 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
             ->andWhere('category.uuid IN (:val)')
             ->setParameter('val', $criteria['category'])
             ->orderBy('book.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

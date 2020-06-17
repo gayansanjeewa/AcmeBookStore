@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Application\Query\GetBookByUuidQuery;
-use App\Application\Util\BookCategory;
+use App\Application\Util\Cart;
 use App\ViewModel\Book;
 use League\Tactician\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,12 +27,12 @@ final class AddBookToCartController extends AbstractController
 
     /**
      * @Route("/api/cart/book", name="api_cart_add_book", methods={"POST"})
+     * @param Request $request
+     * @return JsonResponse
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $cart = $this->getShoppingCart($request);
-
-//        $request->getSession()->remove('cart'); // TODO: remove this code placed for debugging
+        $cart = $this->applyDiscount($request);
 
         return new JsonResponse([
             'quantity' => count($cart['items']),
@@ -40,80 +40,38 @@ final class AddBookToCartController extends AbstractController
         ], Response::HTTP_OK);
     }
 
-    private function getShoppingCart(Request $request): array
+    /**
+     * @param Request $request
+     * @return array
+     */
+    private function applyDiscount(Request $request): array
     {
         /** @var Book $book */
         $book = $this->bus->handle(new GetBookByUuidQuery($request->get('uuid')));
 
         $cart = $this->getCartFromSession($request->getSession());
 
-        array_push($cart['items'], [
+        $cart->addItem([
             'bookUuid'  => $book->uuid,
             'category'  => $book->category->name,
             'bookPrice' => $book->price,
         ]);
 
-        $cart['total'] = $this->calculateTotal($cart);
+        $request->getSession()->set('cart', $cart->asArray());
 
-        if (empty($cart['couponDiscount']) && empty($cart['childrenCategoryDiscount']) && $this->applyChildrenCategoryDiscount($cart)) {
-            $cart['childrenCategoryDiscount'] = $cart['total'] * .1;
-            $cart['total'] -= $cart['childrenCategoryDiscount'];
-        }
-
-        if (empty($cart['couponDiscount']) && empty($cart['totalCategoryDiscount']) && $this->applyTotalCategoryDiscount($cart)) {
-            $cart['totalCategoryDiscount'] = $cart['total'] * .05;
-            $cart['total'] -= $cart['totalCategoryDiscount'];
-        }
-
-        $request->getSession()->set('cart', $cart);
-
-        return $cart;
+        return $cart->asArray();
     }
 
-    private function getCartFromSession(SessionInterface $session): array
+    /**
+     * @param SessionInterface $session
+     * @return Cart
+     */
+    private function getCartFromSession(SessionInterface $session): Cart
     {
         if ($session->has('cart')) {
-            return $session->get('cart');
+            return Cart::create($session->get('cart'));
         }
 
-        $session->set('cart', ['items' => [], 'total' => 0]);
-
-        return $session->get('cart');
-    }
-
-    private function calculateTotal(array $cart): float
-    {
-        $total = 0;
-        foreach ($cart['items'] as $item) {
-            $total += $item['bookPrice'];
-        }
-
-        return $total / 100;
-    }
-
-    private function applyChildrenCategoryDiscount(array $cart): bool
-    {
-        $discountSatisfiableChildrenCategoryCount = 5;
-
-        $childrenBooks = array_filter($cart['items'], function ($item) {
-            return BookCategory::children()->equals(BookCategory::fromString($item['category']));
-        });
-
-        return count($childrenBooks) >= $discountSatisfiableChildrenCategoryCount;
-    }
-
-    private function applyTotalCategoryDiscount(array $cart)
-    {
-        $discountSatisfiableCount = 10;
-
-        $childrenBooks = array_filter($cart['items'], function ($item) {
-            return BookCategory::children()->equals(BookCategory::fromString($item['category']));
-        });
-
-        $fictionBooks = array_filter($cart['items'], function ($item) {
-            return BookCategory::children()->equals(BookCategory::fromString($item['category']));
-        });
-
-        return count($childrenBooks) >= $discountSatisfiableCount && count($fictionBooks) >= $discountSatisfiableCount;
+        return Cart::init();
     }
 }
