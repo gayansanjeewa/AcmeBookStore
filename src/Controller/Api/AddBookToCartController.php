@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Application\Query\GetBookByUuidQuery;
-use App\Controller\Util\Cart;
+use App\Application\Util\Cart;
 use App\ViewModel\Book;
 use League\Tactician\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Controller\Util\Cart;
+use App\Application\Util\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

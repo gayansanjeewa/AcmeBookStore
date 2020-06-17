@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Controller\Util;
-
-use App\Application\Util\BookCategory;
+namespace App\Application\Util;
 
 final class Cart
 {
